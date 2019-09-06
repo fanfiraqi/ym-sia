@@ -1,0 +1,103 @@
+<div id="errorHandler" class="alert alert-danger no-display"></div>
+<?php echo form_open('pengunci/saveForm',array('class'=>'form-horizontal','id'=>'myform'));?>
+<div class="alert alert-success alert-block">
+<ul>
+	<li>Form Pengunci adalah fasilitas untuk mengunci transaksi berdasarkan tanggal yang disetting
+	<li>Yang Berhak mengunci adalah yang memiliki akses admin, Staf Accounting, dan Manager Keuangan
+	<li>Tanggal yang disetting adalah sebagai patokan bahwa dari tanggal tersebut sampai transaksi pada tanggal sebelum pengunci tidak bisa diedit oleh kasir dan Staf Accounting, jika ada transaksi pada tanggal sebelum pengunci butuh diedit maka hanya manager yang bisa melakukan editing transaksi
+</ul>
+</div>
+<div class="row">
+	<div class="col-md-8">
+		<div class="form-group">
+        <label class="col-sm-4 control-label">Tanggal Pengunci	</label>
+        <div class=" col-sm-4 input-group">        
+        <input type="text" name="tglKunci" id="tglKunci" class="form-control" data-inputmask="'alias': 'yyyy-mm-dd'" data-mask placeholder="yyyy-mm-dd" value="<?=(sizeof($res)>0?$res->tanggal:date('Y-m-d'))?>"/>
+		<div class="input-group-addon">
+        <span class="fa fa-calendar" id="bttgl"></span>
+        </div>
+        </div><!-- /.input group -->		
+        </div><!-- /.form group -->
+		
+</div>
+<div class="row">
+	<div class="col-md-8">
+		<div class="form-group"><label class="col-sm-4 control-label">Pihak Pengunci Terakhir</label>
+			<div class="col-sm-4"><input type="text" name="pengunci" id="pengunci" class="form-control" value="<?=(sizeof($res)>0?$res->pengunci:$this->session->userdata('auth')->NAMA)?>" readonly></div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-8">
+		<div class="form-group"><label class="col-sm-4 control-label">Waktu Penguncian terakhir</label>
+			<div class="col-sm-4"><input type="text" name="waktu" id="waktu" class="form-control" value="<?=(sizeof($res)>0?$res->updatetime:date('Y-m-d H:i:s'))?>" readonly></div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="col-md-8">	
+	<label class="col-sm-4 control-label"></label>
+	<input type="hidden" name="state" id="state" value="<?=(sizeof($res)>0?$res->id:'add')?>">
+	<input type="button" class="btn btn-primary" id="btsimpan" value="Simpan">
+	<input type="reset" class="btn btn-default" id="btcancel">
+	</div>
+</div>
+
+<?php echo form_close();?>
+
+<script>
+    $(document).ready(function() {
+		$("[data-mask]").inputmask();
+    });
+	$( "#tglKunci" ).datepicker({
+		dateFormat: 'yyyy-mm-dd',
+		onSelect: function(date) {
+            alert(date)
+        }
+		});
+	$("#bttgl").click(function() {
+		$("#tglKunci").datepicker("show");
+	});	
+
+	
+	$('#btcancel').click(function(){
+		$('#myform').reset();
+	});
+
+	
+	$('#btsimpan').click(function(){		
+		var form_data = $('#myform').serialize();
+		$().showMessage('Sedang diproses.. Harap tunggu..');
+		$.ajax({
+			type: 'POST',
+			url: '<?php echo base_url('pengunci/saveForm');?>',
+			data: form_data,				
+			dataType: 'json',
+			success: function(msg) {
+				 $("#errorHandler").html('&nbsp;').hide();
+				 //console.log(msg);
+				if(msg.status =='success'){
+					$().showMessage('Data Pengunci berhasil disimpan.','success',1000);
+					$("#divformkel").fadeSlide("hide");
+					window.location.reload();
+					
+				} else {
+					$().showMessage('Terjadi kesalahan. Data gagal disimpan.','danger',700);
+					//bootbox.alert("Terjadi kesalahan. Data gagal disimpan.");
+					$("#errorHandler").html(msg.errormsg).show();
+				}
+			},
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				//$().showMessage('Terjadi kesalahan.<br />'+	textStatus + ' - ' + errorThrown ,'danger');
+				bootbox.alert("Terjadi kesalahan. Data gagal disimpan."+	textStatus + " - " + errorThrown );
+			},
+			cache: false
+		});
+		//$().showMessage('Data pembelian berhasil disimpan, data order akan dikirim melalui sms','success',1000);
+	});
+
+	
+</script>

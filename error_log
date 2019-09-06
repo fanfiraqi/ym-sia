@@ -1,0 +1,1 @@
+[29-Jan-2019 08:48:01 UTC] PHP Fatal error:  Call to undefined method common_model::comboGetAkunKasZIS_Cabang() in /home/indosunn/public_html/ym-sia/application/controllers/pendapatanzis.php on line 263
