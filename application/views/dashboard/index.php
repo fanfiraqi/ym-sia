@@ -51,10 +51,10 @@ $jumlah=$initval+$saldoLalu;
                                                 <th>Saldo</th>
                                             </tr>
                                             <tr>
-                                                <td>Saldo Lalu</td>
-                                                <td><?php echo ($jumlah<0?"":"Rp. ".number_format($jumlah,2,',','.'))?></td>
-                                                <td><?php echo ($jumlah<0?"Rp. ".number_format($jumlah,2,',','.'):"")?></td>
-                                                <td><?php echo ($jumlah<0?"( Rp. ".number_format($jumlah,2,',','.')." )":"Rp. ".number_format($jumlah,2,',','.'))?></td>
+                                                <td>Saldo Awal</td>
+                                                <td><?php echo ($jumlah<0?"":"".number_format($jumlah,0,',','.'))?></td>
+                                                <td><?php echo ($jumlah<0?"".number_format($jumlah,0,',','.'):"")?></td>
+                                                <td><?php echo ($jumlah<0?"( ".number_format($jumlah,0,',','.')." )":"".number_format($jumlah,0,',','.'))?></td>
                                             </tr>
 <?	$kasMasuk=$this->report_model->kasMasukHariIni();
 	$jumlah=$jumlah+$kasMasuk;
@@ -63,9 +63,9 @@ $jumlah=$initval+$saldoLalu;
 										?>
                                             <tr>
                                                 <td>Kas Masuk Hari Ini</td>
-                                                <td><?php echo "Rp. ".number_format($kasMasuk,2,',','.')?></td>
+                                                <td><?php echo "".number_format($kasMasuk,0,',','.')?></td>
                                                 <td>&nbsp;</td>
-                                                <td><?php echo ($jumlah<0?"( Rp. ".number_format($jumlah,2,',','.')." )":"Rp. ".number_format($jumlah,2,',','.'))?></td>
+                                                <td><?php echo ($jumlah<0?"( ".number_format($jumlah,0,',','.')." )":"".number_format($jumlah,0,',','.'))?></td>
                                             </tr>
 <?
 $kasKeluar=$this->report_model->kasKeluarHariIni();
@@ -78,14 +78,14 @@ $this->session->set_userdata($session);
                                             <tr>
                                                 <td>Kas Keluar Hari Ini</td>
 												<td>&nbsp;</td>
-                                                <td><?php echo "Rp. ".number_format($kasKeluar,2,',','.')?></td> 
-												<td><?php echo ($jumlah<0?"( Rp. ".number_format($jumlah,2,',','.')." )":"Rp. ".number_format($jumlah,2,',','.'))?></td>
+                                                <td><?php echo "".number_format($kasKeluar,0,',','.')?></td> 
+												<td><?php echo ($jumlah<0?"( ".number_format($jumlah,0,',','.')." )":"".number_format($jumlah,0,',','.'))?></td>
                                             </tr>
                                             <tr>
                                                 <td>Saldo Terakhir s.d <?php echo date ('d M Y')?></td>
                                                 <td></td>
                                                 <td></td>
-                                                <td><?php echo ($jumlah<0?"( Rp. ".number_format($jumlah,2,',','.')." )":"Rp. ".number_format($jumlah,2,',','.'))?></td>
+                                                <td><?php echo ($jumlah<0?"(".number_format($jumlah,0,',','.')." )":"".number_format($jumlah,0,',','.'))?></td>
                                             </tr>
                                            
                                         </table>
