@@ -102,5 +102,3 @@ $this->session->set_userdata($session);
 </div>
 
 </div><!-- new -->
-
-
